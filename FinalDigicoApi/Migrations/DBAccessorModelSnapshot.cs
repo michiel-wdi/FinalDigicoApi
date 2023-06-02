@@ -34,18 +34,12 @@ namespace FinalDigicoApi.Migrations
 
                     b.HasKey("selfRef");
 
-                    b.ToTable("Occupations", (string)null);
+                    b.ToTable("Occupations");
                 });
 
             modelBuilder.Entity("FinalDigicoApi.Objects.BasicSkill", b =>
                 {
                     b.Property<string>("selfRef")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("BasicOccupationselfRef")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("BasicOccupationselfRef1")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("discription")
@@ -56,29 +50,48 @@ namespace FinalDigicoApi.Migrations
 
                     b.HasKey("selfRef");
 
-                    b.HasIndex("BasicOccupationselfRef");
-
-                    b.HasIndex("BasicOccupationselfRef1");
-
-                    b.ToTable("Skill", (string)null);
+                    b.ToTable("Skill");
                 });
 
-            modelBuilder.Entity("FinalDigicoApi.Objects.BasicSkill", b =>
+            modelBuilder.Entity("FinalDigicoApi.Objects.OccationBasicSkill", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("BasicOccupationselfRef")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("IsEssential")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("skillselfRef")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BasicOccupationselfRef");
+
+                    b.HasIndex("skillselfRef");
+
+                    b.ToTable("occationBasicSkills");
+                });
+
+            modelBuilder.Entity("FinalDigicoApi.Objects.OccationBasicSkill", b =>
                 {
                     b.HasOne("FinalDigicoApi.Objects.BasicOccupation", null)
-                        .WithMany("essentialSkills")
+                        .WithMany("Skills")
                         .HasForeignKey("BasicOccupationselfRef");
 
-                    b.HasOne("FinalDigicoApi.Objects.BasicOccupation", null)
-                        .WithMany("optionalSkills")
-                        .HasForeignKey("BasicOccupationselfRef1");
+                    b.HasOne("FinalDigicoApi.Objects.BasicSkill", "skill")
+                        .WithMany()
+                        .HasForeignKey("skillselfRef");
+
+                    b.Navigation("skill");
                 });
 
             modelBuilder.Entity("FinalDigicoApi.Objects.BasicOccupation", b =>
                 {
-                    b.Navigation("essentialSkills");
-
-                    b.Navigation("optionalSkills");
+                    b.Navigation("Skills");
                 });
 #pragma warning restore 612, 618
         }

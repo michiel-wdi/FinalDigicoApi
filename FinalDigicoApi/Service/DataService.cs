@@ -39,9 +39,17 @@ namespace FinalDigicoApi.Service
 
         public int UpdateBasicSkill(BasicSkill basicSkill)
         {
-
-            _dbaccess.Skills.Update(basicSkill);
-            return _dbaccess.SaveChanges();
+            var x = _dbaccess.Skills
+                .AsNoTracking()
+                .ToList()
+                .FirstOrDefault(c => c.selfRef == basicSkill.selfRef, null);
+            if (x != null)
+            {
+                _dbaccess.Skills.Update(basicSkill);
+                return _dbaccess.SaveChanges();
+            }
+            
+            return CreateBasicSkill(basicSkill);
         }
 
         public int CreateBasicSkill(BasicSkill basicSkill)
@@ -59,11 +67,19 @@ namespace FinalDigicoApi.Service
 
         public int UpdateBasicOccupation(BasicOccupation basicOccupation)
         {
-            _dbaccess.Occupations.Update(basicOccupation);
-            return _dbaccess.SaveChanges();
+            var x = _dbaccess.Occupations
+                .AsNoTracking()
+                .ToList()
+                .FirstOrDefault(o => o.selfRef == basicOccupation.selfRef, null);
+            if (x != null)
+            {
+                _dbaccess.Occupations.Update(basicOccupation);
+                return _dbaccess.SaveChanges(); 
+            }
+            return CreateBasicOccupation(basicOccupation);
         }
 
-        public int CreateBAsicOccupation(BasicOccupation basicOccupation)
+        public int CreateBasicOccupation(BasicOccupation basicOccupation)
         {
             _dbaccess.Occupations.Add(basicOccupation);
             return _dbaccess.SaveChanges();
@@ -86,6 +102,10 @@ namespace FinalDigicoApi.Service
             foreach (var item in _dbaccess.Occupations.ToList())
             {
                 _dbaccess.Occupations.Remove(item);
+            }
+            foreach (var item in _dbaccess.occationBasicSkills.ToList())
+            {
+                _dbaccess.occationBasicSkills.Remove(item);
             }
             _dbaccess.SaveChanges();
         }

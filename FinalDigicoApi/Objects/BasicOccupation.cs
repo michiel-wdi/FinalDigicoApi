@@ -21,12 +21,18 @@ namespace FinalDigicoApi.Objects
 
         public string? description { get; set; }
 
-        [ForeignKey(nameof(optionalSkills))]
-        public List<BasicSkill>? optionalSkills { get; set; }
+        public List<OccationBasicSkill>? Skills { get; set; } = new List<OccationBasicSkill>();
 
-        [ForeignKey(nameof(optionalSkills))]
-        public List<BasicSkill>? essentialSkills { get; set; }
+    }
 
+
+    [PrimaryKey("Id")]
+    public class OccationBasicSkill
+    {
+        [Key]
+        public string Id { get; set; }
+        public bool IsEssential { get; set; }
+        public BasicSkill skill { get; set; }
     }
 }
 

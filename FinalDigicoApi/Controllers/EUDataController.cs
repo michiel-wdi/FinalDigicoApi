@@ -50,11 +50,11 @@ namespace FinalDigicoApi.Controllers
                     {
                         
                         var resultOccupation = await BasicMigration.GetBasicOccupationAsync(objectOI, language);
-                        _service.CreateBAsicOccupation(resultOccupation);
+                        _service.UpdateBasicOccupation(resultOccupation);
                         return Ok(JsonConvert.SerializeObject(resultOccupation, Formatting.Indented));
                     }
                     var resultSkill = await BasicMigration.getBasicSkill(objectOI, language);
-                    _service.CreateBasicSkill(resultSkill);
+                    _service.UpdateBasicSkill(resultSkill);
                     return Ok(JsonConvert.SerializeObject(resultSkill, Formatting.Indented));
 
                 }
@@ -74,7 +74,7 @@ namespace FinalDigicoApi.Controllers
         public async Task<IActionResult> getBasicSkill(string href, string language)
         {
             var result = await BasicMigration.getBasicSkill(href, language);
-
+            _service.UpdateBasicSkill(result);
             return Ok(JsonConvert.SerializeObject(result));
         }
 
@@ -88,7 +88,9 @@ namespace FinalDigicoApi.Controllers
         [HttpGet("/basicOccupation")]
         public async Task<IActionResult> getbasicOccupation(string href, string language)
         {
-            return Ok(await BasicMigration.GetBasicOccupationAsync(href, language));
+            var result = await BasicMigration.GetBasicOccupationAsync(href, language);
+            _service.UpdateBasicOccupation(result);
+            return Ok(result);
         }
 
     }

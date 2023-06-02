@@ -70,9 +70,25 @@ namespace FinalDigicoApi.API
             };
 
             var result = GetListSkillAsync(basicOccupation.selfRef, language, "hasOptionalSkill");
-            basicOccupation.essentialSkills = await GetListSkillAsync(basicOccupation.selfRef, language, "hasEssentialSkill");
-            basicOccupation.optionalSkills = result.Result;
-            
+            var x = await GetListSkillAsync(basicOccupation.selfRef, language, "hasEssentialSkill");
+            foreach (var item in x)
+            {
+                basicOccupation.Skills.Add(new OccationBasicSkill() { 
+                    skill = item, 
+                    IsEssential= true , 
+                    Id=item.selfRef
+                });
+            }
+            var y = result.Result;
+            foreach (var item in y)
+            {
+                basicOccupation.Skills.Add(new OccationBasicSkill() { 
+                    skill = item,
+                    IsEssential = false,
+                    Id = item.selfRef
+                });
+            }
+
 
 
             return basicOccupation;
