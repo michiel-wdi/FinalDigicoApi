@@ -1,15 +1,16 @@
 using FinalDigicoApi.DBAccess;
 using FinalDigicoApi.Service;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.Extensions.Configuration;
 public class Program
 {
     private static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-
+        
         // Add services to the container.
-        builder.Services.AddDbContext<DBAccessor>(options => options.UseSqlServer(connectionString: @"Data Source=.\sqlexpress;Initial Catalog=TestAPIDB;Integrated Security=True;Trust Server Certificate=True"));
+        builder.Services.AddDbContext<DBAccessor>(options 
+            => options.UseSqlServer(builder.Configuration.GetConnectionString("connectionString")));
         //just change server to whatever
 
         builder.Services.AddTransient<DataService>();
@@ -36,4 +37,6 @@ public class Program
 
         app.Run();
     }
+
+
 }
