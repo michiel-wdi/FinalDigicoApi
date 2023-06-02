@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FinalDigicoApi.DBAccess
 {
-    public class DBAccessor : DbContext, IDBAccessor
+    public class DBAccessor : DbContext
     {
 
         public DbSet<BasicOccupation> Occupations { get; set; }

@@ -70,22 +70,22 @@ namespace FinalDigicoApi.API
             };
 
             var result = GetListSkillAsync(basicOccupation.selfRef, language, "hasOptionalSkill");
-            var x = await GetListSkillAsync(basicOccupation.selfRef, language, "hasEssentialSkill");
-            foreach (var item in x)
+            var essentialList = await GetListSkillAsync(basicOccupation.selfRef, language, "hasEssentialSkill");
+            foreach (var skill in essentialList)
             {
                 basicOccupation.Skills.Add(new OccationBasicSkill() { 
-                    skill = item, 
+                    skill = skill, 
                     IsEssential= true , 
-                    Id=item.selfRef
+                    Id=skill.selfRef
                 });
             }
-            var y = result.Result;
-            foreach (var item in y)
+            var optionalList = result.Result;
+            foreach (var skill in optionalList)
             {
                 basicOccupation.Skills.Add(new OccationBasicSkill() { 
-                    skill = item,
+                    skill = skill,
                     IsEssential = false,
-                    Id = item.selfRef
+                    Id = skill.selfRef
                 });
             }
 
@@ -109,7 +109,7 @@ namespace FinalDigicoApi.API
 
 
             var next = (string)jObject["_links"]["next"]["href"];
-            for (int i = (int)jObject["offset"]; (i + 1) * (int)jObject["limit"] < (int)jObject["total"]; i++)
+            for (int offset = (int)jObject["offset"]; (offset + 1) * (int)jObject["limit"] < (int)jObject["total"]; offset++)
             {
                 var existingResults = (JArray)jObject["_embedded"]["results"];
 
@@ -121,7 +121,7 @@ namespace FinalDigicoApi.API
                 existingResults.Merge(newResults);
 
 
-                if ((i + 2) * (int)jObject["limit"] < (int)jObject["total"])
+                if ((offset + 2) * (int)jObject["limit"] < (int)jObject["total"])
                 {
                     next = (string)newjObject["_links"]["next"]["href"];
                 }

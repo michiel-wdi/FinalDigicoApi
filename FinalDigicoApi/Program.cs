@@ -10,6 +10,8 @@ public class Program
 
         // Add services to the container.
         builder.Services.AddDbContext<DBAccessor>(options => options.UseSqlServer(connectionString: @"Data Source=.\sqlexpress;Initial Catalog=TestAPIDB;Integrated Security=True;Trust Server Certificate=True"));
+        //just change server to whatever
+
         builder.Services.AddTransient<DataService>();
         builder.Services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

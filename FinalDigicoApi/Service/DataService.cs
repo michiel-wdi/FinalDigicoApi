@@ -25,25 +25,25 @@ namespace FinalDigicoApi.Service
 
         public BasicOccupation GetBasicOccupation(string href)
         {
-            var x = _dbaccess.Occupations.ToList().FirstOrDefault(o => o.selfRef == href, null);
+            var result = _dbaccess.Occupations.ToList().FirstOrDefault(o => o.selfRef == href, null);
 
-            return x == null ? new BasicOccupation() : x;
+            return result == null ? new BasicOccupation() : result;
         }
 
         public BasicSkill GetBasicSkill(string href)
         {
-            var x = _dbaccess.Skills.ToList().FirstOrDefault(s => s.selfRef == href, null);
+            var result = _dbaccess.Skills.ToList().FirstOrDefault(s => s.selfRef == href, null);
 
-            return x;
+            return result;
         }
 
         public int UpdateBasicSkill(BasicSkill basicSkill)
         {
-            var x = _dbaccess.Skills
+            var result = _dbaccess.Skills
                 .AsNoTracking()
                 .ToList()
-                .FirstOrDefault(c => c.selfRef == basicSkill.selfRef, null);
-            if (x != null)
+                .FirstOrDefault(skill => skill.selfRef == basicSkill.selfRef, null);
+            if (result != null)
             {
                 _dbaccess.Skills.Update(basicSkill);
                 return _dbaccess.SaveChanges();
@@ -67,11 +67,11 @@ namespace FinalDigicoApi.Service
 
         public int UpdateBasicOccupation(BasicOccupation basicOccupation)
         {
-            var x = _dbaccess.Occupations
+            var result = _dbaccess.Occupations
                 .AsNoTracking()
                 .ToList()
-                .FirstOrDefault(o => o.selfRef == basicOccupation.selfRef, null);
-            if (x != null)
+                .FirstOrDefault(occupation => occupation.selfRef == basicOccupation.selfRef, null);
+            if (result != null)
             {
                 _dbaccess.Occupations.Update(basicOccupation);
                 return _dbaccess.SaveChanges(); 
